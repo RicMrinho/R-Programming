@@ -1,0 +1,312 @@
+******************************************************
+ Final Project
+---------|----------             
+Nama Anggota Kelompok | 
+- Albertus Christian Wahyu Atmaja (68921)
+- Eric Mourinho (69045)
+---------|---------- 
+Kelas                 | BL
+
+******************************************************
+
+#--------------------2. Demonstrate gaussian distribution
+#----2.1 Perbandingan Data Primer dan Data Sekunder
+library(readxl)
+
+data <- read_excel("Data.xlsx", sheet = "DataPrim", range = "K22:K25")
+data <- unlist(data)
+
+data2 <- read_excel("Data.xlsx", sheet = "DataSekun", range = "D2:D6")
+data2 <- as.numeric(unlist(data2))
+
+par(mfrow=c(1,2), mar=c(4,4,2,2))
+
+hist(data, breaks = 10, freq = FALSE, col = "blue", main = "Data Primer", xlab = "Values")
+mu <- mean(data)
+sigma <- sd(data)
+curve(dnorm(x, mean = mu, sd = sigma), col = "red", add = TRUE)
+
+hist(data2, breaks = 10, freq = FALSE, col = "green", main = "Data Sekunder", xlab = "Values")
+mu2 <- mean(data2)
+sigma2 <- sd(data2)
+curve(dnorm(x, mean = mu2, sd = sigma2), col = "red", add = TRUE)
+
+# Shapiro-Wilk normality test
+shapiro.test(data)
+shapiro.test(data2)
+
+#----2.2 Umur
+library(readxl)
+
+data <- read_excel("Data.xlsx", sheet = "DataPrim", range = "K34:K42")
+data <- unlist(data)
+
+par(mfrow=c(1,2), mar=c(4,4,2,2))
+
+hist(data, breaks = 10, freq = FALSE, col = "blue", main = "Umur", xlab = "Values")
+mu <- mean(data)
+sigma <- sd(data)
+curve(dnorm(x, mean = mu, sd = sigma), col = "red", add = TRUE)
+
+#----2.3 Penggunaan Aplikasi
+library(readxl)
+
+data <- read_excel("Data.xlsx", sheet = "DataPrim", range = "K6:K10")
+data <- unlist(data)
+
+par(mfrow=c(1,2), mar=c(4,4,2,2))
+
+hist(data, breaks = 10, freq = FALSE, col = "blue", main = "Penggunaan Aplikasi", xlab = "Values")
+mu <- mean(data)
+sigma <- sd(data)
+curve(dnorm(x, mean = mu, sd = sigma), col = "red", add = TRUE)
+
+
+
+#--------------------3 Demonstrate inference of a mean
+# Load data from Excel file
+library(readxl)
+
+data_sheet1 <- read_excel("Data.xlsx", sheet = "DataPrim", range = "K22:K25")
+data_sheet2 <- read_excel("Data.xlsx", sheet = "DataSekun", range = "D2:D6")
+
+# Calculate mean for each column in sheet 1
+mean_data_sheet1 <- apply(data_sheet1, 2, mean)
+
+# Print mean values for each column in sheet 1
+print(mean_data_sheet1)
+
+# Calculate mean for each column in sheet 2
+mean_data_sheet2 <- apply(data_sheet2, 2, mean)
+
+# Print mean values for each column in sheet 2
+print(mean_data_sheet2)
+
+# Perform t-test to determine if means are significantly different from each other
+t_test <- t.test(data_sheet1, data_sheet2, paired = FALSE)
+
+# Print t-test results
+print(t_test)
+
+
+
+#--------------------4 Demonstrate inference of a mean on two population
+library(readxl)
+
+# Load data from Excel file
+data_sheet1 <- read_excel("Data.xlsx", sheet = "DataPrim", range = "K22:K25")
+data_sheet2 <- read_excel("Data.xlsx", sheet = "DataSekun", range = "D2:D6")
+
+# Calculate sample means and standard deviations for each dataset
+n1 <- length(unlist(data_sheet1))
+n2 <- length(unlist(data_sheet2))
+mean1 <- mean(unlist(data_sheet1), na.rm = TRUE)
+mean2 <- mean(unlist(data_sheet2), na.rm = TRUE)
+sd1 <- sd(unlist(data_sheet1), na.rm = TRUE)
+sd2 <- sd(unlist(data_sheet2), na.rm = TRUE)
+
+# Calculate the standard error of the difference between the means
+se <- sqrt((sd1^2 / n1) + (sd2^2 / n2))
+
+# Calculate the t-statistic and degrees of freedom
+t_stat <- (mean1 - mean2) / se
+df <- n1 + n2 - 2
+
+# Calculate the p-value using a two-tailed test
+p_value <- 2 * pt(abs(t_stat), df = df, lower.tail = FALSE)
+
+# Print the results
+cat("Sample 1 mean:", mean1, "\n")
+cat("Sample 1 standard deviation:", sd1, "\n")
+cat("Sample 2 mean:", mean2, "\n")
+cat("Sample 2 standard deviation:", sd2, "\n")
+cat("T-statistic:", t_stat, "\n")
+cat("Degrees of freedom:", df, "\n")
+cat("P-value:", p_value, "\n")
+
+#--------------------5 Anova
+
+
+#--------------------6 Pearson
+
+
+#--------------------7 Wilcoxon
+
+
+#--------------------8 Chi-square
+
+
+#--------------------6 Hypothesis Testing
+#------6.1.1
+# Load the required package
+library(tidyverse)
+library(readxl)
+
+# Read the data
+data <- read_excel("Data.xlsx", sheet = "DataPrim", range = "K6:K10")
+
+# Check the structure of the data object
+str(data)
+
+# perform a one-sample t-test
+t.test(data, mu = 3)
+
+#--------6.1.2
+# Read the data
+data <- read_excel("Data.xlsx", sheet = "DataPrim", range = "K14:K18")
+
+# Check the structure of the data object
+str(data)
+
+# perform a one-sample t-test
+t.test(data, mu = 3)
+
+#--------6.1.3
+# Read the data
+data <- read_excel("Data.xlsx", sheet = "DataPrim", range = "K22:K25")
+
+# Check the structure of the data object
+str(data)
+
+# perform a one-sample t-test
+t.test(data, mu = 3)
+
+#--------6.1.4
+# Read the data
+data <- read_excel("Data.xlsx", sheet = "DataPrim", range = "K34:K42")
+
+# Check the structure of the data object
+str(data)
+
+# perform a one-sample t-test
+t.test(data, mu = 3)
+
+
+#--------6.2
+# Read the data
+data <- read_excel("Data.xlsx", sheet = "DataSekun", range = "D2:D6")
+
+# Check the structure of the data object
+str(data)
+
+# perform a one-sample t-test
+t.test(data, mu = 3)
+
+
+
+
+#-----ANOVA
+library(stats)
+library(readxl)
+
+# Read the data from DataPrim sheet
+data_sheet1 <- read_excel("Data.xlsx", sheet = "DataPrim", range = "K22:K25")
+
+# Read the data from DataSekun sheet
+data_sheet2 <- read_excel("Data.xlsx", sheet = "DataSekun", range = "D2:D6")
+
+# Extract the column "K" from DataPrim sheet
+data_prim <- data_sheet1[[1]]
+
+# Extract the column "D" from DataSekun sheet
+data_sekun <- data_sheet2[[1]]
+
+# Perform ANOVA for DataPrim
+result_prim <- aov(data_prim ~ 1)
+
+# Perform ANOVA for DataSekun
+result_sekun <- aov(data_sekun ~ 1)
+
+# Print the ANOVA table for DataPrim
+summary(result_prim)
+
+# Print the ANOVA table for DataSekun
+summary(result_sekun)
+
+
+#------Pearson
+library(readxl)
+
+# Read the data from DataPrim sheet
+data_sheet1 <- read_excel("Data.xlsx", sheet = "DataPrim", range = "K22:K25")
+
+# Read the data from DataSekun sheet
+data_sheet2 <- read_excel("Data.xlsx", sheet = "DataSekun", range = "D2:D6")
+
+# Extract the columns from the sheets
+data_prim <- data_sheet1[[1]]
+data_sekun <- data_sheet2[[1]]
+
+# Ensure both vectors have the same length
+min_length <- min(length(data_prim), length(data_sekun))
+data_prim <- data_prim[1:min_length]
+data_sekun <- data_sekun[1:min_length]
+
+# Calculate the Pearson correlation coefficient
+cor_coef <- cor(data_prim, data_sekun)
+
+# Print the data and the correlation coefficient
+cat("Data 1:", data_prim, "\n")
+cat("Data 2:", data_sekun, "\n")
+cat("Pearson's correlation coefficient:", cor_coef, "\n")
+
+
+#-------Wilcoxon
+library(readxl)
+
+# Read the data from DataPrim sheet
+data_sheet1 <- read_excel("Data.xlsx", sheet = "DataPrim", range = "K22:K25")
+
+# Read the data from DataSekun sheet
+data_sheet2 <- read_excel("Data.xlsx", sheet = "DataSekun", range = "D2:D6")
+
+# Extract the columns from the sheets
+data_prim <- data_sheet1[[1]]
+data_sekun <- data_sheet2[[1]]
+
+# Ensure both vectors have the same length
+min_length <- min(length(data_prim), length(data_sekun))
+data_prim <- data_prim[1:min_length]
+data_sekun <- data_sekun[1:min_length]
+
+# Perform the Wilcoxon rank sum test
+wilcox.test(data_prim, data_sekun)
+
+
+#--------Chi-square
+
+library(readxl)
+
+# Read the data from DataPrim sheet
+data_sheet1 <- read_excel("Data.xlsx", sheet = "DataPrim", range = "K22:K25")
+
+# Read the data from DataSekun sheet
+data_sheet2 <- read_excel("Data.xlsx", sheet = "DataSekun", range = "D2:D6")
+
+# Extract the columns from the sheets
+data_prim <- data_sheet1[[1]]
+data_sekun <- data_sheet2[[1]]
+
+# Ensure both vectors have the same length
+min_length <- min(length(data_prim), length(data_sekun))
+data_prim <- data_prim[1:min_length]
+data_sekun <- data_sekun[1:min_length]
+
+# Create a contingency table
+cont_table <- table(data_prim, data_sekun)
+
+# Perform the chi-square test
+chisq_result <- chisq.test(cont_table)
+
+# Print the test statistic, p-value, degrees of freedom, and alternative hypothesis
+cat("Chi-square test statistic:", chisq_result$statistic, "\n")
+cat("p-value:", chisq_result$p.value, "\n")
+cat("Degrees of freedom:", chisq_result$parameter, "\n")
+
+# Specify the alternative hypothesis
+alternative_hypothesis <- "two-sided"  # Modify based on your research question
+
+cat("Alternative hypothesis:", alternative_hypothesis, "\n")
+
+
+
